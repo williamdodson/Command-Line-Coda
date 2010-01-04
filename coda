@@ -1,0 +1,96 @@
+#!/opt/local/bin/perl -w
+
+
+#	Command-Line Coda
+#	------------------
+
+#	@file 		coda
+#	@version 	1.0.0b
+#	@date 		2009-11-22 11:27:13 -0600 (Sun, 22 Nov 2009)
+#	@author 	Aditya Bhargava <aditya@wefoundland.com>
+
+#	Copyright (c) 2009 Wefoundland <http://wefoundland.com>
+# Licensed under the GNU Public License.
+
+
+##########################################
+# OPTIONS
+# Set the path to Coda by changing this variable:
+# This WILL get overwritten if the user has the $CODAPATH
+# environment variable set.
+
+$codapath = "/Applications/Coda.app";
+
+##########################################
+
+
+####################################################################################
+# DO NOT MAKE ANY CHANGES BEYOND THIS UNLESS YOU KNOW WHAT YOU'RE DOING.
+####################################################################################
+
+# Set the new Coda path if the environment variable is set.
+$codapath = $ENV{CODAPATH} if ($ENV{CODAPATH});
+
+
+$\ = "\n";
+show_help() unless @ARGV;
+show_help() if $ARGV[0] eq '-h';
+show_credits() if $ARGV[0] eq '-c';
+show_warranty() if $ARGV[0] eq '-w';
+
+# sets verbosity.
+$v = 0;
+
+if  ($ARGV[0] eq '-v')
+{
+	# set verbosity to 1.
+	$v = 1;
+	shift @ARGV;
+}
+for $file(@ARGV)
+{
+	unless (-e $file)
+	{
+		print "Making file $file..." if $v==1;
+		`touch $file`;
+	}
+}
+$files = join(" ",@ARGV);
+$filenames = $files;
+$filenames=~s/ /, /g;
+print "Opening $filenames with Coda..." if $v==1;
+`open -a $codapath $files`;
+sub show_help
+{
+	print "\nOpens a file with Coda.";
+	print "----------------------";
+	print "Usage:";
+	print "coda [filename]\n";
+	print "Flags:";
+	print "-v 	Verbose Output";
+	print "-c		Credits";
+	print "-w		Warranty";
+	print "";
+	exit(0);
+}
+
+sub show_credits
+{
+	print "\nCommand-Line Coda created by Aditya Bhargava at wefoundland.com.";
+	print "------------------------------------------------------------------\n";
+	print "Coda created by Panic at panic.com.\n";
+	print "To see the warranty, run 'coda -w'.\n";
+	exit(0);
+}
+
+sub show_warranty
+{
+		print <<END;
+		
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. Use at your
+own risk. See the full warranty at perl.wefoundland.com/terms.
+END
+	exit(0);
+}

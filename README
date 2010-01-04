@@ -1,0 +1,29 @@
+=================
+Command-Line Coda
+=================
+
+Overview
+========
+
+Command-Line Coda is a script for Panic's Coda. It allows you to open files from the command line simply by typing:
+
+coda [filename]
+
+
+
+More Info
+=========
+
+For more information, visit the project's homepage at:
+
+http://www.wefoundland.com/project/command-line_coda
+
+The home page also has a link to download an easy-to-use package installer.
+
+
+
+Credits
+=======
+
+Command-Line Coda copyright (c) Aditya Bhargava. Released under an LGPL license.
+Coda copyright (c) Panic.
